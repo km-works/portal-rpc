@@ -40,7 +40,7 @@ import java.net.URISyntaxException;
 import org.kmworks.portal.rpc.service.RPCExtensionsLocalServiceUtil;
 import org.kmworks.liferay.rpc.utils.AuthToken;
 import org.kmworks.liferay.rpc.utils.RPCTunneling;
-import org.kmworks.utils.misc.MimeType;
+import org.kmworks.util.misc.MimeType;
 
 /**
  *
