@@ -1,5 +1,8 @@
 target/
+classes/
 nbproject/
 nb-configuration.xml
+nbbuild.xml
 *.bat
+*.class
 
