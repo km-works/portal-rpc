@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+  <groupId>org.km-works.portal</groupId>
+  <artifactId>portal-rpc-parent</artifactId>
+  <version>6.2.3.2</version>
+  <packaging>pom</packaging>
+    
+  <name>KM-WORKS Portal RPC</name>
+  <description>A Java stand-alone HTTP-based RPC client/server for secure remote access to the Liferay Portal 6.2 API</description>
+  <inceptionYear>2013</inceptionYear>
+  <url>https://bitbucket.org/km-works/liferay-portal-rpc/wiki</url>
+  
+  <modules>
+    <module>../portal-rpc-service</module>
+    <module>../portal-rpc-client</module>
+  </modules>
+
+  <licenses>
+    <license>
+      <name>GNU Lesser General Public License, Version 3.0</name>
+      <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+  <issueManagement>
+    <system>JIRA</system>
+    <url>https://bitbucket.org/km-works/liferay-portal-rpc/issues</url>
+  </issueManagement>
+  
+  <scm>
+    <url>https://bitbucket.org/km-works/liferay-portal-rpc/src</url>
+    <connection>scm:git:https://bitbucket.org/km-works/liferay-portal-rpc.git</connection>
+  </scm>
+  
+  <developers>
+    <developer>
+      <id>clerch</id>
+      <name>Christian P. Lerch</name>
+      <email>christian.p.lerch@gmail.com</email>
+      <url>https://www.linkedin.com/pub/christian-lerch/51/a3b/562</url>
+      <organization>km-works.org</organization>
+      <organizationUrl>http://km-works.bitbucket.org</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>Europe/Berlin</timezone>
+    </developer>
+  </developers>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <forceJavacCompilerUse>true</forceJavacCompilerUse>
+          <showDeprecation>true</showDeprecation>
+        </configuration>
+      </plugin>
+      <plugin>
+        <!-- The Javadoc Plugin uses the Javadoc tool to generate javadocs for the specified project -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+        <configuration>
+        </configuration>
+      </plugin>
+      <plugin>
+        <!-- The Source Plugin creates a jar archive of the source files of the current project -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+        </configuration>
+      </plugin>    
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>18.0</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>annotations</artifactId>
+        <version>3.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+  <properties>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+</project>

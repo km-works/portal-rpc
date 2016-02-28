@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+    
+  <parent>
+    <groupId>org.km-works.portal</groupId>
+    <artifactId>portal-rpc-parent</artifactId>
+    <version>6.2.3.2</version>
+    <relativePath>../portal-rpc-parent</relativePath>
+  </parent>
+
+  <name>KM-WORKS Portal RPC Client</name>
+  <artifactId>portal-rpc-client</artifactId>
+  <packaging>jar</packaging>
+  
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>portal-rpc-service</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.liferay.portal</groupId>
+      <artifactId>portal-service</artifactId>
+      <version>6.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.liferay.portal</groupId>
+      <artifactId>util-java</artifactId>
+      <version>6.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.km-works.utils</groupId>
+      <artifactId>utils-common</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.portlet</groupId>
+      <artifactId>portlet-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+  </dependencies>
+</project>

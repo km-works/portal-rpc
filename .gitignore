@@ -1,0 +1,5 @@
+target/
+nbproject/
+nb-configuration.xml
+*.bat
+

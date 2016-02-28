@@ -1,0 +1,24 @@
+LICENSES OF RUNTIME DEPENDENCIES
+================================
+
+portal-rpc-client
+-----------------
+  liferay portal service v6.2.1 : LGPL v2.1+
+  liferay util java v6.2.1      : LGPL v2.1+
+  google guava v18.0            : Apache License 2.0
+  apache commons lang V2.6      : Apache License 2.0
+  javax portlet api v2.0        : Apache License 2.0
+  javax servlet api v3.1        : CDDL v1.1 + GPL v2
+  
+portal-rpc-service
+------------------
+  liferay portal service v6.2.1 : LGPL v2.1+
+  liferay util java v6.2.1      : LGPL v2.1+
+  javax portlet api v2.0        : Apache License 2.0
+  javax servlet api v3.1        : CDDL v1.1 + GPL v2
+
+portal-rpc-server-hook
+----------------------
+  liferay portal service v6.2.1 : LGPL v2.1+
+  liferay util java v6.2.1      : LGPL v2.1+  (included)
+  
