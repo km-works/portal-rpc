@@ -1,0 +1,3 @@
+[submodule "portal-rpc-server-hook"]
+	path = portal-rpc-server-hook
+	url = https://github.com/km-works/portal-rpc-server-hook.git
