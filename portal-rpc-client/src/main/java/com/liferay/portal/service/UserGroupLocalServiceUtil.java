@@ -19,7 +19,7 @@ package com.liferay.portal.service;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.UserGroup;
 import java.util.List;
-import org.kmworks.liferay.rpc.utils.RPCTunneling;
+import org.kmworks.portal.rpc.utils.RPCTunneling;
 
 /**
  *

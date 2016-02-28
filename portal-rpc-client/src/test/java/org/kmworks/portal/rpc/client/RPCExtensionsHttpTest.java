@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kmworks.liferay.rpc.client;
+package org.kmworks.portal.rpc.client;
 
+import org.kmworks.portal.rpc.client.RPCExtensionsHttp;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
 import com.liferay.portal.kernel.exception.PortalException;

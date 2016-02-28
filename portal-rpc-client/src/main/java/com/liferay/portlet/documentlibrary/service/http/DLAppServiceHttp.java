@@ -29,7 +29,7 @@ import com.liferay.portal.service.http.TunnelUtil;
 import com.liferay.portlet.documentlibrary.service.DLAppServiceUtil;
 import java.io.IOException;
 import java.util.List;
-import org.kmworks.liferay.rpc.utils.Tunneling;
+import org.kmworks.portal.rpc.utils.Tunneling;
 
 /**
  * Provides the HTTP utility for the

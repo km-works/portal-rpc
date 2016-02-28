@@ -22,7 +22,7 @@ import com.liferay.portal.service.http.HttpTestUtil;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
-import org.kmworks.liferay.rpc.Configuration;
+import org.kmworks.portal.rpc.Configuration;
 
 /**
  *

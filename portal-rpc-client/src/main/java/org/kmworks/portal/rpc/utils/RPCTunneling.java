@@ -14,30 +14,43 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this distribution. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kmworks.liferay.rpc.utils;
+package org.kmworks.portal.rpc.utils;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.MethodHandler;
+import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.security.auth.HttpPrincipal;
-import com.liferay.portal.service.http.TunnelUtil;
+import org.kmworks.portal.rpc.Configuration;
 
-/** A convenience wrapper around TunnelUtil that provides improved exception handling.
+/** A convenience wrapper around RPCTunnelUtil that provides improved exception handling.
  *
  * @author Christian P. Lerch
  */
-public final class Tunneling {
+public final class RPCTunneling {
 
-  private Tunneling() {
+  private RPCTunneling() {}
+
+  public static Object invoke(Class<?> serviceClass, String methodName, Class<?>[] paramTypes, Object... paramValues) 
+          throws SystemException {
+    Object result;
+    try {
+			MethodKey methodKey = new MethodKey(serviceClass, methodName, paramTypes);
+			MethodHandler methodHandler = new MethodHandler(methodKey, paramValues);
+			result = RPCTunneling.invoke(Configuration.getToken().getPrincipal(), methodHandler);
+		}
+		catch (PortalException | SystemException ex) {
+			//LogFactoryUtil.getLog(serviceClass).error(ex, ex);
+			throw new SystemException(ex);
+    }
+    return result;
   }
 
   public static Object invoke(HttpPrincipal httpPrincipal, MethodHandler methodHandler)
           throws PortalException, SystemException {
-
     Object result = null;
-
     try {
-      result = TunnelUtil.invoke(httpPrincipal, methodHandler);
+      result = RPCTunnelUtil.invoke(httpPrincipal, methodHandler);
     } catch (Exception e) {
       if (e instanceof PortalException) {
         throw (PortalException) e;
@@ -47,15 +60,26 @@ public final class Tunneling {
       }
       throw new SystemException(e);
     }
-
     return result;
+  }
+
+  public static void invoke_void(Class<?> serviceClass, String methodName, Class<?>[] paramTypes, Object... paramValues) 
+          throws SystemException {
+    try {
+			MethodKey methodKey = new MethodKey(serviceClass, methodName, paramTypes);
+			MethodHandler methodHandler = new MethodHandler(methodKey, paramValues);
+			RPCTunneling.invoke_void(Configuration.getToken().getPrincipal(), methodHandler);
+		}
+		catch (PortalException | SystemException ex) {
+			//LogFactoryUtil.getLog(serviceClass).error(ex, ex);
+			throw new SystemException(ex);
+    }
   }
 
   public static void invoke_void(HttpPrincipal httpPrincipal, MethodHandler methodHandler)
           throws PortalException, SystemException {
-
     try {
-      TunnelUtil.invoke(httpPrincipal, methodHandler);
+      RPCTunnelUtil.invoke(httpPrincipal, methodHandler);
     } catch (Exception e) {
       if (e instanceof PortalException) {
         throw (PortalException) e;
@@ -65,7 +89,6 @@ public final class Tunneling {
       }
       throw new SystemException(e);
     }
-
   }
 
 }

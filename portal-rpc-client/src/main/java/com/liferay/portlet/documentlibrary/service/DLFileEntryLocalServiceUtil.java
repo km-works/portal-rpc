@@ -22,9 +22,9 @@ import com.liferay.portlet.documentlibrary.model.DLFileEntry;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
-import org.kmworks.liferay.rpc.Configuration;
-import org.kmworks.liferay.rpc.client.RPCExtensionsHttp;
-import org.kmworks.liferay.rpc.utils.RPCTunneling;
+import org.kmworks.portal.rpc.Configuration;
+import org.kmworks.portal.rpc.client.RPCExtensionsHttp;
+import org.kmworks.portal.rpc.utils.RPCTunneling;
 
 /**
  *

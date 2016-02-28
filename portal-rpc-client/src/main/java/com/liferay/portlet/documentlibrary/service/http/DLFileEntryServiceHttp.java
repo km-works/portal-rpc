@@ -23,9 +23,9 @@ import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.security.auth.HttpPrincipal;
 import com.liferay.portal.service.http.TunnelUtil;
 import com.liferay.portlet.documentlibrary.service.DLFileEntryServiceUtil;
-import org.kmworks.liferay.rpc.Configuration;
-import org.kmworks.liferay.rpc.client.RPCExtensionsHttp;
-import org.kmworks.liferay.rpc.utils.AuthToken;
+import org.kmworks.portal.rpc.Configuration;
+import org.kmworks.portal.rpc.client.RPCExtensionsHttp;
+import org.kmworks.portal.rpc.utils.AuthToken;
 
 
 /**

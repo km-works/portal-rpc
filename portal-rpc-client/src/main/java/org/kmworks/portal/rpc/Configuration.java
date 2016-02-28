@@ -14,13 +14,13 @@
  *  You should have received a copy of the GNU Lesser General Public License
  *  along with this distribution. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kmworks.liferay.rpc;
+package org.kmworks.portal.rpc;
 
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.security.auth.HttpPrincipal;
 import com.liferay.portal.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.util.PropsUtil;
-import org.kmworks.liferay.rpc.utils.AuthToken;
+import org.kmworks.portal.rpc.utils.AuthToken;
 
 /**
  *

@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.service.ServiceContext;
-import org.kmworks.liferay.rpc.utils.RPCTunneling;
+import org.kmworks.portal.rpc.utils.RPCTunneling;
 
 /**
  *

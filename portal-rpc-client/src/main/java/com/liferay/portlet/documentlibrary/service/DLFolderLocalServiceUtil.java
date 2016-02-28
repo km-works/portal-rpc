@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portlet.documentlibrary.model.DLFolder;
 import java.util.List;
-import org.kmworks.liferay.rpc.utils.RPCTunneling;
+import org.kmworks.portal.rpc.utils.RPCTunneling;
 
 /**
  *

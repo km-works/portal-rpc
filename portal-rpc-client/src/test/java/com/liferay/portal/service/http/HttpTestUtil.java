@@ -16,8 +16,8 @@
  */
 package com.liferay.portal.service.http;
 
-import org.kmworks.liferay.rpc.Configuration;
-import org.kmworks.liferay.rpc.utils.AuthToken;
+import org.kmworks.portal.rpc.Configuration;
+import org.kmworks.portal.rpc.utils.AuthToken;
 
 /*
  * Set Maven option -DfailIfNoTests=false to ignore test results for building from sources

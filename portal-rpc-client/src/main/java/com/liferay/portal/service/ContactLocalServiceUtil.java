@@ -18,7 +18,7 @@ package com.liferay.portal.service;
 
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.Contact;
-import org.kmworks.liferay.rpc.utils.RPCTunneling;
+import org.kmworks.portal.rpc.utils.RPCTunneling;
 
 /**
  *

@@ -5,7 +5,7 @@
   <parent>
       <groupId>org.km-works.portal</groupId>
       <artifactId>portal-rpc-parent</artifactId>
-      <version>6.2.3.2</version>
+      <version>1.0.0</version>
       <relativePath>../portal-rpc-parent</relativePath>
   </parent>
 

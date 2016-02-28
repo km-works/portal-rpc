@@ -14,8 +14,9 @@
  *  You should have received a copy of the GNU Lesser General Public License
  *  along with this distribution. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kmworks.liferay.rpc;
+package org.kmworks.portal.rpc;
 
+import org.kmworks.portal.rpc.Configuration;
 import com.liferay.portal.service.http.HttpTestUtil;
 import org.junit.Test;
 import static org.junit.Assert.*;

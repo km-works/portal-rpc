@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.User;
 import java.util.List;
 import java.util.Locale;
-import org.kmworks.liferay.rpc.utils.RPCTunneling;
+import org.kmworks.portal.rpc.utils.RPCTunneling;
 
 /**
  *

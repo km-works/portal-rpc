@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this distribution. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kmworks.liferay.rpc.client;
+package org.kmworks.portal.rpc.client;
 
 import com.google.common.io.ByteStreams;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -38,8 +38,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import org.kmworks.portal.rpc.service.RPCExtensionsLocalServiceUtil;
-import org.kmworks.liferay.rpc.utils.AuthToken;
-import org.kmworks.liferay.rpc.utils.RPCTunneling;
+import org.kmworks.portal.rpc.utils.AuthToken;
+import org.kmworks.portal.rpc.utils.RPCTunneling;
 import org.kmworks.util.misc.MimeType;
 
 /**
