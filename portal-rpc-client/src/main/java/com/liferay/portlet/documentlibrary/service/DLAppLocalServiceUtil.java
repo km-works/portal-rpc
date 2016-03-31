@@ -31,31 +31,31 @@ public final class DLAppLocalServiceUtil {
   
   private DLAppLocalServiceUtil() {}
   
-public static FileEntry addFileEntry(
-        long userId,
-        long repositoryId,
-        long folderId,
-        String sourceFileName,
-        String mimeType,
-        String title,
-        String description,
-        String changeLog,
-        byte[] bytes,
-        ServiceContext ctx) throws PortalException, SystemException {
-    return (FileEntry)RPCTunneling.invoke(TGT, "addFileEntry", 
-            new Class[] { 
-              long.class, long.class, long.class, 
-              String.class, String.class, String.class, String.class, String.class,
-              byte[].class,
-              ServiceContext.class
-            }, 
-            userId, repositoryId, folderId, 
-            sourceFileName, mimeType, title, description, changeLog, 
-            bytes, 
-            ctx);  
-}
-        
-public static Folder getFolder(long folderId) throws SystemException {
+  public static FileEntry addFileEntry(
+          long userId,
+          long repositoryId,
+          long folderId,
+          String sourceFileName,
+          String mimeType,
+          String title,
+          String description,
+          String changeLog,
+          byte[] bytes,
+          ServiceContext ctx) throws PortalException, SystemException {
+      return (FileEntry)RPCTunneling.invoke(TGT, "addFileEntry", 
+              new Class[] { 
+                long.class, long.class, long.class, 
+                String.class, String.class, String.class, String.class, String.class,
+                byte[].class,
+                ServiceContext.class
+              }, 
+              userId, repositoryId, folderId, 
+              sourceFileName, mimeType, title, description, changeLog, 
+              bytes, 
+              ctx);  
+  }
+
+  public static Folder getFolder(long folderId) throws SystemException {
     return (Folder)RPCTunneling.invoke(TGT, "getFolder", 
             new Class[] { long.class }, 
             folderId);

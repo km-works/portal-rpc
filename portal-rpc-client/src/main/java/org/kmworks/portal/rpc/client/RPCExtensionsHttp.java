@@ -224,9 +224,8 @@ public class RPCExtensionsHttp {
     svcCtx.setAddGroupPermissions(true);
     svcCtx.setIndexingEnabled(true);
     
-    FileEntry fileEntry = null;
     try {
-      fileEntry = com.liferay.portlet.documentlibrary.service.DLAppLocalServiceUtil.addFileEntry(
+      return com.liferay.portlet.documentlibrary.service.DLAppLocalServiceUtil.addFileEntry(
               token.getUserId(),                // owner
               repositoryId,                     // = groupId
               folderId,                         // parent folder
@@ -240,7 +239,6 @@ public class RPCExtensionsHttp {
     } catch (PortalException | SystemException ex) {
       throw new RuntimeException(String.format("Cannot upload file '%s' to folder id=%d", title, folderId), ex);
     }
-    return fileEntry; 
   }
   
   /**
