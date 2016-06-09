@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2014 Christian P. Lerch <christian.p.lerch [at] gmail [dot] com>
+ * Copyright (C) 2005-2016 Christian P. Lerch <christian.p.lerch [at] gmail [dot] com>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -48,13 +48,13 @@ public class AuthToken {
   }
   
   public long getCompanyId() {
-    ensureCompanyId();
+    ensureCompanyId();  // requires Liferay to be up and running !!!
     return principal.getCompanyId();
   }
   
   public User getUser() {
-    ensureCompanyId();
-    ensureUser();
+    ensureCompanyId();  // requires Liferay to be up and running !!!
+    ensureUser();       // requires Liferay to be up and running !!!
     return user;
   }
   
@@ -63,8 +63,8 @@ public class AuthToken {
   }
   
   public long getRepositoryId() throws PortalException, SystemException {
-    ensureCompanyId();
-    ensureRepositoryId();
+    ensureCompanyId();    // requires Liferay to be up and running !!!
+    ensureRepositoryId(); // requires Liferay to be up and running !!!
     return repositoryId;
   }
   
@@ -72,19 +72,19 @@ public class AuthToken {
     return new HttpPrincipal(principal.getUrl(), principal.getLogin(), principal.getPassword());
   }
   
-  public void ensureCompanyId() {
+  public void ensureCompanyId() { // requires Liferay to be up and running !!!
     if (principal.getCompanyId() == 0L) {
       principal.setCompanyId(RPCExtensionsHttp.getCompanyId(this));
     }
   }
   
-  private void ensureUser() {
+  private void ensureUser() { // requires Liferay to be up and running !!!
     if (user == null) {
       user = RPCExtensionsHttp.getUserfromToken(this);
     }    
   }
   
-  private void ensureRepositoryId() {
+  private void ensureRepositoryId() { // requires Liferay to be up and running !!!
     if (repositoryId == null) {
       repositoryId = RPCExtensionsHttp.getRepositoryId(this);
     }

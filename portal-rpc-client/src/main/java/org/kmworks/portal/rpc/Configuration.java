@@ -20,7 +20,10 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.security.auth.HttpPrincipal;
 import com.liferay.portal.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.util.PropsUtil;
+import java.util.concurrent.TimeUnit;
 import org.kmworks.portal.rpc.utils.AuthToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -38,18 +41,62 @@ public final class Configuration {
           String userName,
           String userPwd,
           String secret) {
-    initialize(new HttpPrincipal(portalURI, userName, userPwd), secret);
+    
+    initialize(portalURI, userName, userPwd, secret, 0);
   }
   
-  public static void initialize(HttpPrincipal principal, String secret) {
+  public static boolean initialize(
+          String portalURI,
+          String userName,
+          String userPwd,
+          String secret,
+          int waitForServerStartupTimeoutSec) {
+    return initialize(new HttpPrincipal(portalURI, userName, userPwd), secret, waitForServerStartupTimeoutSec);
+  }
+  
+  private static boolean initialize(HttpPrincipal principal, String secret, int waitForServerStartupTimeoutSec) {
     // set shared secret first!
     sharedSecret = secret;
     PropsUtil.set(PropsKeys.TUNNELING_SERVLET_SHARED_SECRET, sharedSecret);
     // create the authetication token
     authToken = new AuthToken(principal);
-    // setup PrincipalThreadLocal to satisfy model classes
-    PrincipalThreadLocal.setName(authToken.getUserId());
-    PrincipalThreadLocal.setPassword(principal.getPassword());
+    // try to retrieve associated user id
+    long userId = getUserIdWaitFor(authToken, waitForServerStartupTimeoutSec);
+    // setup PrincipalThreadLocal to satisfy Liferay model classes
+    if (userId != 0L) {
+      PrincipalThreadLocal.setName(userId);
+      PrincipalThreadLocal.setPassword(principal.getPassword());
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  private static long getUserIdWaitFor(AuthToken authToken, int seconds) {
+    if (seconds == 0L) {
+      // requires Liferay to be up and running; if not throws exception:
+      // com.liferay.portal.kernel.exception.SystemException: java.net.ConnectException: Connection refused: connect
+      return authToken.getUserId();  
+    } else {
+      // waits for Liferay to be up an running for given number of seconds
+      // returns 0L on timeout
+      long result = 0L;
+      // turn logging off temporarily
+      //Level currLevel = Logger.getGlobal().getLevel();
+      //Logger.getGlobal().setLevel(Level.OFF);
+      while (seconds > 0L) {
+        try {
+          result = authToken.getUserId();
+          break;
+        } catch (Exception e) {
+          seconds -= 1;
+        }
+        try { TimeUnit.SECONDS.sleep(1); } catch (Exception e) {}
+      }
+      // turn logging on again
+      //Logger.getGlobal().setLevel(currLevel);
+      return result;
+    }
   }
   
   public static boolean isValid() {
@@ -72,5 +119,7 @@ public final class Configuration {
   public static String getSharedSecret() {
     return sharedSecret;
   }
-   
+  
+  private static final Class<?> SELF = Configuration.class;
+  private static final Logger LOG = LoggerFactory.getLogger(SELF);
 }

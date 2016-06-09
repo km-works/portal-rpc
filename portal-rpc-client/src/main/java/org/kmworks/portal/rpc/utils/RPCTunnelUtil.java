@@ -16,8 +16,6 @@
  */
 package org.kmworks.portal.rpc.utils;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.ObjectValuePair;
@@ -32,6 +30,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import org.kmworks.portal.rpc.io.HttpUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -61,8 +61,8 @@ public class RPCTunnelUtil extends TunnelUtil {
 		try (ObjectInputStream objectInputStream = new ObjectInputStream(httpURLConnection.getInputStream())) {
         returnObject = objectInputStream.readObject();
 		} catch (EOFException eofe) {
-			if (_LOG.isDebugEnabled()) {
-				_LOG.debug("Unable to read object from object stream", eofe);
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Unable to read object from object stream", eofe);
 			}
 		} catch (IOException ioe) {
 			String ioeMessage = ioe.getMessage();
@@ -123,6 +123,6 @@ public class RPCTunnelUtil extends TunnelUtil {
 
   */
   
-	private static final Log _LOG = LogFactoryUtil.getLog(RPCTunnelUtil.class);
-
+  private static final Class<?> SELF = RPCTunnelUtil.class;
+  private static final Logger LOG = LoggerFactory.getLogger(SELF);
 }

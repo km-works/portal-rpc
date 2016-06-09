@@ -19,8 +19,6 @@ package org.kmworks.portal.rpc.client;
 import com.google.common.io.ByteStreams;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
@@ -41,35 +39,41 @@ import org.kmworks.portal.rpc.service.RPCExtensionsLocalServiceUtil;
 import org.kmworks.portal.rpc.utils.AuthToken;
 import org.kmworks.portal.rpc.utils.RPCTunneling;
 import org.kmworks.util.misc.MimeType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Christian P. Lerch
  */
-public class RPCExtensionsHttp {
+public final class RPCExtensionsHttp {
+  
+  private static final String PFX = "Cannot ";
   
   /** Return the user's repositoryId (sometimes also called groupId).
    * 
    * @param token The authenticated user token
    * @return The user's repository id
    */
-  public static long getRepositoryId(AuthToken token) {
-    
+  public static long getRepositoryId(AuthToken token) 
+  {
+    final String me = "getRepositoryId";
     final long userId = token.getUserId();
     final HttpPrincipal principal = token.getPrincipal();
-
     try {
 			MethodKey methodKey = new MethodKey(com.liferay.portal.service.GroupLocalServiceUtil.class,
 					"getGroup", TYPE_LONG_STRING);
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					token.getCompanyId(), String.valueOf(userId));
 			Group group = (Group)RPCTunneling.invoke(principal, methodHandler);
-      if (group == null) throw new SystemException("GroupLocalServiceUtil.getGroup returned null for userId: " + userId);
+      if (group == null) {
+        throw new SystemException("GroupLocalServiceUtil.getGroup returned null for userId: " + userId);
+      }
       return group.getGroupId();
 		}
-		catch (PortalException | SystemException se) {
-			LOG.error(se, se);
-			throw new RuntimeException(se);
+		catch (PortalException | SystemException ex) {
+			LOG.debug(PFX+me, ex);
+			throw new RuntimeException(ex);
     }
   }
   
@@ -84,17 +88,18 @@ public class RPCExtensionsHttp {
   public static long downloadFile(AuthToken token,
           long fileEntryId,
           String version,
-          File localFile) {
-    
+          File localFile) 
+  {
+    final String me = "downloadFile";
     long byteCount;
     try {
       try (InputStream from = new ByteArrayInputStream(getFileAsBytes(token, fileEntryId, version)); 
            OutputStream to = new FileOutputStream(localFile)) {
         byteCount = ByteStreams.copy(from, to);
       }
-    } catch (IOException ioe) {
-      LOG.error(ioe, ioe);
-      throw new RuntimeException(ioe);
+    } catch (IOException ex) {
+			LOG.debug(PFX+me, ex);
+      throw new RuntimeException(ex);
     }
     return byteCount;
   }
@@ -114,19 +119,19 @@ public class RPCExtensionsHttp {
           long fileEntryId, 
           String version,
           File serverFile) {
-    
+    final String me = "downloadFileToServer";
 		try {
 			MethodKey methodKey = new MethodKey(RPCExtensionsLocalServiceUtil.class,
-					"downloadFileToServer", TYPE_LONG_LONG_STRING_FILE);
+					me, TYPE_LONG_LONG_STRING_FILE);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					token.getUserId(), fileEntryId, version, serverFile);
 
 			return (long)RPCTunneling.invoke(token.getPrincipal(), methodHandler);
 		}
-		catch (PortalException | SystemException se) {
-			LOG.error(se, se);
-			throw new RuntimeException(se);
+		catch (PortalException | SystemException ex) {
+			LOG.debug(PFX+me, ex);
+			throw new RuntimeException(ex);
 		}
 	}
 
@@ -162,20 +167,21 @@ public class RPCExtensionsHttp {
    */
   public static byte[] getFileAsBytes(AuthToken token, 
           long fileEntryId, 
-          String version) {
-    
+          String version) 
+  {
+    final String me = "getFileAsBytes";
 		try {
 			MethodKey methodKey = new MethodKey(RPCExtensionsLocalServiceUtil.class,
-					"getFileAsBytes", TYPE_LONG_LONG_STRING);
+					me, TYPE_LONG_LONG_STRING);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					token.getUserId(), fileEntryId, version);
 
 			return (byte[])RPCTunneling.invoke(token.getPrincipal(), methodHandler);
 		}
-		catch (PortalException | SystemException se) {
-			LOG.error(se, se);
-			throw new RuntimeException(se);
+		catch (PortalException | SystemException ex) {
+			LOG.debug(PFX+me, ex);
+			throw new RuntimeException(ex);
 		}
 	}
   
@@ -190,7 +196,7 @@ public class RPCExtensionsHttp {
     FileEntry fileEntry = null;
     try {
       fileEntry = uploadFile(token, folderId, repositoryId, title, sourceFileName, ByteStreams.toByteArray(in));
-    } catch(IOException ex) {
+    } catch (IOException ex) {
       throw new RuntimeException(ex);
     }
     return fileEntry;
@@ -246,22 +252,24 @@ public class RPCExtensionsHttp {
    * @param token The authenticated user token
    * @return
    */
-  public static int getOrganizationsCount(AuthToken token) {
-    
+  public static int getOrganizationsCount(AuthToken token) 
+  {
+    final String me = "getOrganizationsCount";
 		try {
 			MethodKey methodKey = new MethodKey(com.liferay.portal.service.OrganizationLocalServiceUtil.class,
-					"getOrganizationsCount", TYPE_VOID);
+					me, TYPE_VOID);
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 			return (int)RPCTunneling.invoke(token.getPrincipal(), methodHandler);
 		}
 		catch (PortalException | SystemException ex) {
-      LOG.error(ex, ex);
+			LOG.debug(PFX+me, ex);
       throw new RuntimeException(ex);
     }
   }
   
-  public static long getCompanyId(final AuthToken token) {
-    
+  public static long getCompanyId(final AuthToken token) 
+  {
+    final String me = "getCompanyId";
     long companyId = 0L;
 		try {
 			MethodKey methodKey = new MethodKey(com.liferay.portal.service.CompanyLocalServiceUtil.class,
@@ -270,15 +278,15 @@ public class RPCExtensionsHttp {
 			final Company company = (Company)RPCTunneling.invoke(token.getPrincipal(), methodHandler);
       companyId = company.getCompanyId();
 		}
-		catch (PortalException | SystemException | URISyntaxException e) {
-			LOG.error(e, e);
-			throw new RuntimeException(e);
+		catch (PortalException | SystemException | URISyntaxException ex) {
+			LOG.debug(PFX+me, ex);
+			throw new RuntimeException(ex);
 		}
     return companyId;
   }
   
-  public static User getUserfromToken(final AuthToken token) {
-    
+  public static User getUserfromToken(final AuthToken token) 
+  {  
     final String login = token.getPrincipal().getLogin();
     final long companyId = token.getCompanyId();
     final String authType = determineAuthType(login);
@@ -298,45 +306,51 @@ public class RPCExtensionsHttp {
     return user;
   }
 
-  private static User fetchUserByScreenName(AuthToken token, long companyId, String screenName) {
+  private static User fetchUserByScreenName(AuthToken token, long companyId, String screenName) 
+  {
+    final String me = "fetchUserByScreenName";
 		try {
 			MethodKey methodKey = new MethodKey(com.liferay.portal.service.UserLocalServiceUtil.class,
-					"fetchUserByScreenName", TYPE_LONG_STRING);
+					me, TYPE_LONG_STRING);
 			MethodHandler methodHandler = new MethodHandler(methodKey,
           companyId, screenName);
 			return (User)RPCTunneling.invoke(token.getPrincipal(), methodHandler);
 		}
-		catch (PortalException | SystemException se) {
-			LOG.error(se, se);
-			throw new RuntimeException(se);
+		catch (PortalException | SystemException ex) {
+			LOG.debug(PFX+me, ex);
+			throw new RuntimeException(ex);
 		}
   }
   
-  private static User fetchUserByEmailAddress(AuthToken token, long companyId, String emailAddress) {
+  private static User fetchUserByEmailAddress(AuthToken token, long companyId, String emailAddress) 
+  {
+    final String me = "fetchUserByEmailAddress";
 		try {
 			MethodKey methodKey = new MethodKey(com.liferay.portal.service.UserLocalServiceUtil.class,
-					"fetchUserByEmailAddress", TYPE_LONG_STRING);
+					me, TYPE_LONG_STRING);
 			MethodHandler methodHandler = new MethodHandler(methodKey,
           companyId, emailAddress);
 			return (User)RPCTunneling.invoke(token.getPrincipal(), methodHandler);
 		}
-		catch (PortalException | SystemException se) {
-			LOG.error(se, se);
-			throw new RuntimeException(se);
+		catch (PortalException | SystemException ex) {
+			LOG.debug(PFX+me, ex);
+			throw new RuntimeException(ex);
 		}
   }
   
-  private static User fetchUserById(AuthToken token, long userId) {
-		try {
+  private static User fetchUserById(AuthToken token, long userId) 
+  {
+    final String me = "fetchUserById";
+    try {
 			MethodKey methodKey = new MethodKey(com.liferay.portal.service.UserLocalServiceUtil.class,
-					"fetchUserById", TYPE_LONG);
+					me, TYPE_LONG);
 			MethodHandler methodHandler = new MethodHandler(methodKey,
           userId);
 			return (User)RPCTunneling.invoke(token.getPrincipal(), methodHandler);
 		}
-		catch (PortalException | SystemException se) {
-			LOG.error(se, se);
-			throw new RuntimeException(se);
+		catch (PortalException | SystemException ex) {
+			LOG.debug(PFX+me, ex);
+			throw new RuntimeException(ex);
 		}
   }
 
@@ -346,15 +360,17 @@ public class RPCExtensionsHttp {
    * @param token The authenticated user token
    * @return
    */
-  public static int getUsersCount(AuthToken token) {
+  public static int getUsersCount(AuthToken token) 
+  {
+    final String me = "getUsersCount";
 		try {
 			MethodKey methodKey = new MethodKey(com.liferay.portal.service.UserLocalServiceUtil.class,
-					"getUsersCount", TYPE_VOID);
+					me, TYPE_VOID);
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 			return (int)RPCTunneling.invoke(token.getPrincipal(), methodHandler);
 		}
 		catch (PortalException | SystemException ex) {
-      LOG.error(ex, ex);
+      LOG.debug(PFX + me, ex);
       throw new RuntimeException(ex);
     }
   }
@@ -393,6 +409,6 @@ public class RPCExtensionsHttp {
     long.class
   };
   
-	private static final Log LOG = LogFactoryUtil.getLog(RPCExtensionsHttp.class);
-  
+  private static final Class<?> SELF = RPCExtensionsHttp.class;
+  private static final Logger LOG = LoggerFactory.getLogger(SELF);
 }
